@@ -202,14 +202,16 @@ export default function Dashboard() {
   const [activeTab, setActiveTab]   = useState<"projects" | "submissions">("projects");
   const [filter, setFilter]         = useState<FilterLabel>("All");
 
+  const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://127.0.0.1:8000";
+
   const fetchData = useCallback(async (isRefresh = false) => {
     if (isRefresh) setRefreshing(true);
     else setLoading(true);
     try {
       const [statsRes, projectsRes, subsRes] = await Promise.all([
-        axios.get("http://127.0.0.1:8000/dashboard/stats"),
-        axios.get("http://127.0.0.1:8000/projects/"),
-        axios.get("http://127.0.0.1:8000/submissions/"),
+        axios.get(`${API_URL}/dashboard/stats`),
+        axios.get(`${API_URL}/projects/`),
+        axios.get(`${API_URL}/submissions/`),
       ]);
       setStats(statsRes.data);
       setProjects(projectsRes.data);

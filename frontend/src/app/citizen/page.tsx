@@ -68,11 +68,13 @@ export default function CitizenPortal() {
     e.preventDefault();
     if (!content.trim()) return;
     setIsSubmitting(true);
+    
+    const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://127.0.0.1:8000";
     try {
       // Use real location if available, otherwise random Delhi coords for demo
       const lat = location ? location.lat : 28.6 + (Math.random() * 0.2 - 0.1);
       const lng = location ? location.lng : 77.2 + (Math.random() * 0.2 - 0.1);
-      await axios.post("http://127.0.0.1:8000/submissions/", {
+      await axios.post(`${API_URL}/submissions/`, {
         text_content: content + (photoName ? ` [Attached Photo: ${photoName}]` : ""),
         location_lat: lat,
         location_lng: lng,
