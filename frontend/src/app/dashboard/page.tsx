@@ -192,6 +192,8 @@ function Skeleton({ className }: { className?: string }) {
 const FILTERS = ["All", "High Urgency", "Education", "Infrastructure", "Health", "Water", "Other"] as const;
 type FilterLabel = typeof FILTERS[number];
 
+const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://127.0.0.1:8000";
+
 /* ─── Main Dashboard ────────────────────────── */
 export default function Dashboard() {
   const [stats, setStats]           = useState<DashboardStatsType | null>(null);
@@ -201,8 +203,6 @@ export default function Dashboard() {
   const [refreshing, setRefreshing] = useState(false);
   const [activeTab, setActiveTab]   = useState<"projects" | "submissions">("projects");
   const [filter, setFilter]         = useState<FilterLabel>("All");
-
-  const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://127.0.0.1:8000";
 
   const fetchData = useCallback(async (isRefresh = false) => {
     if (isRefresh) setRefreshing(true);
